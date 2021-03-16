@@ -24,8 +24,8 @@ public class ExcelUtility {
 			e.printStackTrace();
 		}
 	}
-	public static String[][] getCellData(String indicatorName){
-		String[][] cellData = null;
+	public static Object[][] getCellData(String indicatorName){
+		Object[][] cellData = null;
 		XSSFCell[] boundaryCells = getEndCells(indicatorName);
 		int startRow = boundaryCells[0].getRowIndex()+1;
 		int startCol = boundaryCells[0].getColumnIndex()+1;

@@ -14,8 +14,8 @@ public class DataProviderClassOneWayFlights {
 	}
 	@DataProvider(name = "searchOneWayFlightsPosTravellers")
 	public Object[][] searchOneWayFlightsTravellersPos() {
-		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsPosTravellers");
-		Object[][] objectList = ExcelUtility.getCellData("OneWayFlightsTravellers");
+		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsWithTravellers");
+		Object[][] objectList = ExcelUtility.getCellData("OneWayTravellers");
 		return objectList;
 	}
 	@DataProvider(name = "searchOneWayFlightsPos")
@@ -34,6 +34,12 @@ public class DataProviderClassOneWayFlights {
 	public Object[][] sendInputsFlightsAge(){
 		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "FlightsOnlyPosWAge");
 		Object[][] objectList = ExcelUtility.getCellData("OneWayAge");
+		return objectList;
+	}
+	@DataProvider(name = "searchOneWayFlightsPosTrDt")
+	public Object[][] searchOneWayFlightsTravellersDtPos() {
+		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsPosTrvDate");
+		Object[][] objectList = ExcelUtility.getCellData("OneWayFlightsTravellersDate");
 		return objectList;
 	}
 }

@@ -10,6 +10,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
 import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
 public class CustomDriver {
@@ -207,6 +209,14 @@ public class CustomDriver {
 		measureScrollUp = 0 - absValue;
 		jsExe.executeScript("window.scrollBy(0, " + measureScrollUp + ");");
 	}
+	
+	/***
+	 * Method to scroll to an element using JavascriptExecutor
+	 * @param element
+	 */
+	public void scrollToTheElement(WebElement element) {
+		jsExe.executeScript("arguments[0].scrollIntoView(true);",element);
+	}
 
 	/**
 	 * Sending special keystrokes like
@@ -299,6 +309,39 @@ public class CustomDriver {
 				}
 			} while (dateElements.size() == 0);
 			logCD.info("Providing departure date");
+		}
+	}
+	
+	/***
+	 * Returns an attribute value for a WebElement
+	 * @param element
+	 * @param attributeName
+	 * @return
+	 */
+	public String getAnAttribute(WebElement element, String attributeName) {
+		String attributeValue = element.getAttribute(attributeName);
+		return attributeValue;
+	}
+	
+	/***
+	 * Method to adjust values using increment or decrement buttons
+	 * @param incrementButton
+	 * @param decrementButton
+	 * @param currentValue
+	 * @param desiredValue
+	 */
+	public void adjustValuesUsingButtons(WebElement incrementButton, WebElement decrementButton, int currentValue, int desiredValue) {
+		int difference = desiredValue - currentValue;
+		int absDifference = Math.abs(difference);
+		if(difference < 0) {
+			for(int i = 0; i < absDifference; i++) {
+				clickAndWait(decrementButton, 2);
+			}
+		}
+		if(difference > 0) {
+			for(int i = 0; i < absDifference; i++) {
+				clickAndWait(incrementButton, 2);
+			}
 		}
 	}
 }

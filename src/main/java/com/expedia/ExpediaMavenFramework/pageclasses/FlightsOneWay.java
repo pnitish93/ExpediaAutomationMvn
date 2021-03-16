@@ -17,7 +17,7 @@ import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
 /**
  * @author Nitish Panda
- * Automatin of some components of expedia website using Page Factory
+ * Automation of some components of Expedia website using Page Factory
  *
  */
 
@@ -51,6 +51,45 @@ public class FlightsOneWay extends CustomDriver {
 	
 	@FindBy(xpath = "//button[text()='Search']")
 	private WebElement flightSearchButton;
+	
+	@FindBy(xpath = "//a[contains(text(), 'traveller')]")
+	private WebElement travellerDropdown;
+	
+	@FindBy(xpath = "//label[text()='Adults']//following-sibling::div//button[1]")
+	private WebElement adultDecrementButton;
+	
+	@FindBy(xpath = "//label[text()='Adults']//following-sibling::div//button[2]")
+	private WebElement adultIncrementButton;
+	
+	@FindBy(xpath = "//label[text()='Children']//following-sibling::div//button[1]")
+	private WebElement childrenDecrementButton;
+	
+	@FindBy(xpath = "//label[text()='Children']//following-sibling::div//button[2]")
+	private WebElement childrenIncrementButton;
+	
+	@FindBy(xpath = "//label[text()='Infants']//following-sibling::div//button[1]")
+	private WebElement infantDecrementButton;
+	
+	@FindBy(xpath = "//label[text()='Infants']//following-sibling::div//button[2]")
+	private WebElement infantIncrementButton;
+	
+	@FindBy(id = "adult-input-0")
+	private WebElement currentAdults;
+	
+	@FindBy(id = "child-input-0")
+	private WebElement currentChildren;
+	
+	@FindBy(id = "infant-input-0")
+	private WebElement currentInfants;
+	
+	@FindBy(xpath = "//button[@data-testid='guests-done-button']")
+	private WebElement travellerDoneButton;
+	
+	enum Traveller{
+		CHILDREN,
+		INFANTS,
+		ADULTS
+	}
 	
 	/**
 	 * Constructor
@@ -128,6 +167,60 @@ public class FlightsOneWay extends CustomDriver {
 		log.info("Searching flights using Search button");
 		GeneralUtility.doHardWaitFor(3000);
 		return new FlightsResultPage(driver);
+	}
+	
+	/***
+	 * Selects the number of adults, children and Infants
+	 * @param adultCount
+	 * @param childrenCount
+	 * @param infantCount
+	 */
+	public void selectNumberOfTravellers(String adultCount, String childrenCount, String infantCount) {
+		int adultCountInt = Integer.parseInt(adultCount);
+		int childrenCountInt = Integer.parseInt(childrenCount);
+		int infantCountInt = Integer.parseInt(infantCount);
+		int currentAdultCount = Integer.parseInt(getAnAttribute(currentAdults, "value"));
+		int currentChildrenCount = Integer.parseInt(getAnAttribute(currentChildren, "value"));
+		int currentInfantCount = Integer.parseInt(getAnAttribute(currentInfants, "value"));
+		clickAndWait(travellerDropdown, 2);
+		incrementOrDecrement(Traveller.ADULTS, currentAdultCount, adultCountInt);
+		incrementOrDecrement(Traveller.CHILDREN, currentChildrenCount, childrenCountInt);
+		incrementOrDecrement(Traveller.INFANTS, currentInfantCount, infantCountInt);
+		clickOnTheTravellerDoneButton();
+	}
+	
+	/***
+	 * Selects the number of travellers
+	 * @param value
+	 * @param currentValue
+	 * @param desiredValue
+	 */
+	private void incrementOrDecrement(Traveller value, int currentValue, int desiredValue) {
+		WebElement incrementElement = null;
+		WebElement decrementElement = null;
+		switch(value) {
+		case ADULTS:
+			incrementElement = adultIncrementButton;
+			decrementElement = adultDecrementButton;
+			break;
+		case CHILDREN:
+			incrementElement = childrenIncrementButton;
+			decrementElement = childrenDecrementButton;
+			break;
+		case INFANTS:
+			incrementElement = infantIncrementButton;
+			decrementElement = infantDecrementButton;
+			break;
+		}
+		adjustValuesUsingButtons(incrementElement, decrementElement, currentValue, desiredValue);
+	}
+	
+	/***
+	 * Clicks on the done button for the travellers - isolated to separate method due to future reusability
+	 */
+	private void clickOnTheTravellerDoneButton() {
+		scrollToTheElement(travellerDoneButton);
+		clickAndWait(travellerDoneButton, 2);
 	}
 }
 

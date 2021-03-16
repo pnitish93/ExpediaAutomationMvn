@@ -46,7 +46,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param to - destination city
 	 * @param date - date of journey - future date
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosDate", dataProviderClass = DataProviderClassOneWayFlights.class, enabled = false)
+	@Test(dataProvider = "searchOneWayFlightsPosDate", dataProviderClass = DataProviderClassOneWayFlights.class)
 	public void isOneWayFlightSearchSuccessWithDate(String from, String to, String date){
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
@@ -67,6 +67,41 @@ public class SearchFlightsOneWay extends TestConfig{
 	public void isOneWayFlightSearchSuccess(String from, String to) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
+		FlightsResultPage flOneWayResult = oneWaySearchPage.searchFlights();
+		Assert.assertTrue(flOneWayResult.isFlightResultsAppearing());
+	}
+	
+	/***
+	 * Test case to search one way flights with only traveller information - every other optional field passed with default value
+	 * @param from
+	 * @param to
+	 * @param adults
+	 * @param children
+	 * @param infants
+	 */
+	@Test(dataProvider = "searchOneWayFlightsPosTravellers", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFlights.class)
+	public void isOneWayFlightsSearchSuccessWithTravellersDefault(String from, String to, String adults, String children, String infants) {
+		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
+		doCommonOperation(from, to, oneWaySearchPage);
+		oneWaySearchPage.selectNumberOfTravellers(adults, children, infants);
+		FlightsResultPage flOneWayResult = oneWaySearchPage.searchFlights();
+		Assert.assertTrue(flOneWayResult.isFlightResultsAppearing());
+	}
+	
+	/***
+	 * Test case to search one way flights with traveller information and date - every other traveller optional field passed with default value
+	 * @param from
+	 * @param to
+	 * @param adults
+	 * @param children
+	 * @param infants
+	 */
+	@Test(dataProvider = "searchOneWayFlightsPosTrDt", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFlights.class)
+	public void isOneWayFlightsSearchSuccessWithTravellerWithDate(String from, String to, String date, String adults, String children, String infants) {
+		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
+		doCommonOperation(from, to, oneWaySearchPage);
+		oneWaySearchPage.provideDepartDate(date);
+		oneWaySearchPage.selectNumberOfTravellers(adults, children, infants);
 		FlightsResultPage flOneWayResult = oneWaySearchPage.searchFlights();
 		Assert.assertTrue(flOneWayResult.isFlightResultsAppearing());
 	}
