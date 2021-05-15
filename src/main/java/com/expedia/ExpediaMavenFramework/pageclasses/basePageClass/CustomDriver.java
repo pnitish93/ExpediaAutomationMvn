@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
@@ -103,7 +104,7 @@ public class CustomDriver {
 	 * @param element             - web element to be clicked on.
 	 * @param waitTimeInMilliSecs - waiting time.
 	 */
-	public void clickAndWait(WebElement element, int waitTimeInMilliSecs) {
+	public void clickAndWait(WebElement element, long waitTimeInMilliSecs) {
 		try {
 			element.click();
 			if (waitTimeInMilliSecs != 0) {
@@ -122,7 +123,7 @@ public class CustomDriver {
 	 */
 	public void clickWithoutWait(WebElement element) {
 		clickAndWait(element, 0);
-		logCD.info("Clicked on a button");
+		logCD.info("Clicked on an element");
 	}
 
 	/**
@@ -342,6 +343,28 @@ public class CustomDriver {
 			for(int i = 0; i < absDifference; i++) {
 				clickAndWait(incrementButton, 2);
 			}
+		}
+	}
+	
+	/***
+	 * Method to select dropdown value using visible text
+	 * @param dropdownElement
+	 * @param value
+	 */
+	public void selectDropDownValueByVisibleText(WebElement dropdownElement, String value) {
+		Select dropDownSelect = new Select(dropdownElement);
+		dropDownSelect.selectByVisibleText(GeneralUtility.removeLeadingTrailingSpaces(value));
+	}
+	
+	public void clickRadioIfNotSelectedAndWait(WebElement radioElement, long waitInMillsecs) {
+		if(!radioElement.isSelected()) {
+			clickAndWait(radioElement, waitInMillsecs);
+		}
+	}
+	
+	public void clickRadioIfNotSelectedWithoutWait(WebElement radioElement) {
+		if(!radioElement.isSelected()) {
+			clickWithoutWait(radioElement);
 		}
 	}
 }

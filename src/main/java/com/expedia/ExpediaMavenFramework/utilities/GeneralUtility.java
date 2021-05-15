@@ -60,4 +60,13 @@ public class GeneralUtility {
 		}
 		return monthNum;
 	}
+	
+	/**
+	 * Utility method to return string without any leading or trailing spaces
+	 * @param str - original string
+	 * @return - string value without any leading and trailing spaces
+	 */
+	public static String removeLeadingTrailingSpaces(String str) {
+		return str.trim();
+	}
 }
