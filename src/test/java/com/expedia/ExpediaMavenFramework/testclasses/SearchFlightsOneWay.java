@@ -6,6 +6,7 @@ import com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFl
 import com.expedia.ExpediaMavenFramework.pageclasses.FlightsOneWay;
 import com.expedia.ExpediaMavenFramework.pageclasses.FlightsResultPage;
 import com.expedia.ExpediaMavenFramework.testclasses.basetestclass.TestConfig;
+import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -46,11 +48,12 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param to - destination city
 	 * @param date - date of journey - future date
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosDate", dataProviderClass = DataProviderClassOneWayFlights.class)
-	public void isOneWayFlightSearchSuccessWithDate(String from, String to, String date){
+	@Test(dataProvider = "searchOneWayFlightsPosDate", dataProviderClass = DataProviderClassOneWayFlights.class, enabled = true)
+	public void isOneWayFlightSearchSuccessWithDate(String from, String to){
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
-		oneWaySearchPage.provideDepartDate(date);
+		String futureDate = GeneralUtility.getAfutureDate();
+		oneWaySearchPage.provideDepartDate(futureDate);
 		FlightsResultPage flOneWayResult = oneWaySearchPage.searchFlights();
 		Assert.assertTrue(flOneWayResult.isFlightResultsAppearing());
 	}
@@ -63,7 +66,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param date
 	 * @throws InterruptedException
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPos", dataProviderClass = DataProviderClassOneWayFlights.class)
+	@Test(dataProvider = "searchOneWayFlightsPos", dataProviderClass = DataProviderClassOneWayFlights.class, enabled = true)
 	public void isOneWayFlightSearchSuccess(String from, String to) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
@@ -79,11 +82,11 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param children
 	 * @param infants
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosTravellers", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFlights.class)
+	@Test(dataProvider = "searchOneWayFlightsPosTravellers", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFlights.class, enabled = true)
 	public void isOneWayFlightsSearchSuccessWithTravellers(String from, String to, String adults, String children, String childrenAges, String infants, String infantAges, String infantSitting) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
-		oneWaySearchPage.selectTravellersWithAllOptions(adults, children, childrenAges, infants, infantAges, infantSitting);
+		oneWaySearchPage.selectTravellersWithAllOptions(adults, children, childrenAges, infants, infantAges, infantSitting, null);
 		FlightsResultPage flOneWayResult = oneWaySearchPage.searchFlights();
 		Assert.assertTrue(flOneWayResult.isFlightResultsAppearing());
 	}
@@ -95,13 +98,16 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param adults
 	 * @param children
 	 * @param infants
+	 * @param flightClass
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosTrDt", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFlights.class)
-	public void isOneWayFlightsSearchSuccessWithAllOptions(String from, String to, String date, String adults, String children, String childrenAges, String infants, String infantAges, String infantSitting) {
+	@Test(dataProvider = "searchOneWayFlightsPosTrDt", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassOneWayFlights.class, enabled = true)
+	public void isOneWayFlightsSearchSuccessWithAllOptions(String from, String to, String adults, String children, String childrenAges, String infants, String infantAges, String infantSitting, String flightClass) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
-		oneWaySearchPage.provideDepartDate(date);
-		oneWaySearchPage.selectTravellersWithAllOptions(adults, children, childrenAges, infants, infantAges, infantSitting);
+		String futureDate = GeneralUtility.getAfutureDate();
+		oneWaySearchPage.provideDepartDate(futureDate);
+		oneWaySearchPage.selectTravellersWithAllOptions(adults, children, childrenAges, infants, infantAges, infantSitting, flightClass);
+		oneWaySearchPage.selectFlightClass(flightClass);
 		FlightsResultPage flOneWayResult = oneWaySearchPage.searchFlights();
 		Assert.assertTrue(flOneWayResult.isFlightResultsAppearing());
 	}

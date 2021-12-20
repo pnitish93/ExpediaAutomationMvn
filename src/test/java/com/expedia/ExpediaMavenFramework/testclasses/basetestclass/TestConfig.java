@@ -39,7 +39,7 @@ public class TestConfig {
 	@AfterMethod
 	public void afterMethod() throws InterruptedException {
 		Thread.sleep(4000);
-		driver.navigate().back();
+		driver.navigate().to("https://www.expedia.co.in/");
 	}
 
 	@AfterClass

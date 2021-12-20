@@ -38,7 +38,7 @@ public class DataProviderClassOneWayFlights {
 	}
 	@DataProvider(name = "searchOneWayFlightsPosTrDt")
 	public Object[][] searchOneWayFlightsTravellersDtPos() {
-		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsPosTrvDate");
+		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsPosAllOptions");
 		Object[][] objectList = ExcelUtility.getCellData("OneWayFlightsTravellersDate");
 		return objectList;
 	}

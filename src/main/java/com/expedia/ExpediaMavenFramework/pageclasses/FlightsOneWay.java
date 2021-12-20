@@ -86,12 +86,27 @@ public class FlightsOneWay extends CustomDriver {
 
 	@FindBy(xpath = "//button[@data-testid='guests-done-button']")
 	private WebElement travellerDoneButton;
-	
+
 	@FindBy(id = "ChildOnLap")
 	private WebElement lapRadio;
-	
+
 	@FindBy(id = "ChildInSeat")
 	private WebElement seatRadio;
+
+	@FindBy(id = "preferred-class-input-trigger")
+	private WebElement currentFlightClassButton;
+
+	@FindBy(xpath = "//span[text()='Economy']//parent::a")
+	private WebElement economyOption;
+
+	@FindBy(xpath = "//span[text()='Premium economy']//parent::a")
+	private WebElement premiumEconomyOption;
+
+	@FindBy(xpath = "//span[text()='Business class']//parent::a")
+	private WebElement businessClassOption;
+
+	@FindBy(xpath = "//span[text()='First class']//parent::a")
+	private WebElement firstClassOption;
 
 	enum Traveller {
 		CHILDREN, INFANTS, ADULTS
@@ -171,7 +186,9 @@ public class FlightsOneWay extends CustomDriver {
 	 */
 	public void provideDepartDate(String date) {
 		clickWithoutWait(departDateButton);
+		log.info("The date to be provided is "+date);
 		clickDateElementIfExists(date);
+		
 	}
 
 	/**
@@ -182,7 +199,7 @@ public class FlightsOneWay extends CustomDriver {
 	public FlightsResultPage searchFlights() {
 		clickWithoutWait(flightSearchButton);
 		log.info("Searching flights using Search button");
-		GeneralUtility.doHardWaitFor(3000);
+		doExplicitWaitForAppearanceFor(60, "//span[text()='Choose departing flight']");
 		return new FlightsResultPage(driver);
 	}
 
@@ -266,18 +283,21 @@ public class FlightsOneWay extends CustomDriver {
 	 * @param infantAges
 	 */
 	public void selectTravellersWithAllOptions(String adultCount, String childrenCount, String childrenAges,
-			String infantCount, String infantAges, String infantSitting) {
+			String infantCount, String infantAges, String infantSitting, String flightClass) {
 		selectTravellerNumber(adultCount, childrenCount, infantCount);
 		chooseAges(childrenAges, MinorTraveller.CHILDREN);
 		chooseAges(infantAges, MinorTraveller.INFANTS);
 		chooseInfantSitting(infantSitting);
 		clickOnTheTravellerDoneButton();
+		selectFlightClass(flightClass);
 	}
 
 	/***
 	 * Methods to choose ages of children and infants
+	 * 
 	 * @param ages - string containing ages of passengers separated by commas
-	 * @param trav - enum values denoting if the passenger is an infant or a children
+	 * @param trav - enum values denoting if the passenger is an infant or a
+	 *             children
 	 */
 	private void chooseAges(String ages, MinorTraveller trav) {
 		ArrayList<String> ageList = new ArrayList<String>();
@@ -303,18 +323,58 @@ public class FlightsOneWay extends CustomDriver {
 			}
 		}
 	}
-	
+
+	/***
+	 * Method to configure sitting options for infants
+	 * 
+	 * @param sittingOption - various infant sitting options offered by Expedia like
+	 *                      - on lap, in seat
+	 */
 	private void chooseInfantSitting(String sittingOption) {
 		WebElement sittingRadio = null;
-		if(sittingOption.equalsIgnoreCase("on lap")) {
+		if (sittingOption.equalsIgnoreCase("on lap")) {
 			sittingRadio = lapRadio;
 		}
-		if(sittingOption.equalsIgnoreCase("in seat")) {
+		if (sittingOption.equalsIgnoreCase("in seat")) {
 			sittingRadio = seatRadio;
 		}
-		if(sittingRadio != null) {
+		if (sittingRadio != null) {
 			clickRadioIfNotSelectedAndWait(sittingRadio, 2000);
-		}		
+		}
+	}
+
+	/***
+	 * Method to select appropriate flight class as per the argument passed
+	 * 
+	 * @param flightClass - any of the flight class categories offered in Expedia
+	 *                    like - 'Economy', 'Business class' etc
+	 */
+	public void selectFlightClass(String flightClass) {
+		if (flightClass == null || flightClass.equals("")) {
+			log.info("Flightclass is either null or blank.");
+		}
+		else {
+			String classLower = flightClass.toLowerCase();
+			if (!currentFlightClassButton.getAttribute("aria-label").toLowerCase().contains(classLower)) {
+				currentFlightClassButton.click();
+				switch (flightClass.toLowerCase()) {
+				case "economy":
+					economyOption.click();
+					break;
+				case "premium economy":
+					premiumEconomyOption.click();
+					break;
+				case "business class":
+					businessClassOption.click();
+					break;
+				case "first class":
+					firstClassOption.click();
+					break;
+				default:
+					System.out.println("No such flights class present.");
+				}
+			}
+		}
 	}
 
 }

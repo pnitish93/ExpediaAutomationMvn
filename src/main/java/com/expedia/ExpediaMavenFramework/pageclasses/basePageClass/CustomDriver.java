@@ -11,7 +11,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
@@ -269,7 +271,7 @@ public class CustomDriver {
 	 */
 	public void clickDateElementIfExists(String date) {
 		scrollDownBy(250);
-		WebElement doneButton = getWebElement("xpath=>//span[text()='Done']");
+		WebElement doneButton = getWebElement("xpath=>//button[contains(text(),'Done') and @data-stid='apply-date-picker']");
 		WebElement nextButton = getWebElement("xpath=>//button[contains(@class, 'uitk-button-paging')][position()=2]");
 		WebElement prevButton = getWebElement("xpath=>//button[contains(@class, 'uitk-button-paging')][position()=1]");
 		String[] dateEles = date.split(" ");
@@ -366,5 +368,10 @@ public class CustomDriver {
 		if(!radioElement.isSelected()) {
 			clickWithoutWait(radioElement);
 		}
+	}
+	
+	public void doExplicitWaitForAppearanceFor(int secondsToWait, String xpathForTheElementToWaitFor) {
+		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathForTheElementToWaitFor)));
 	}
 }

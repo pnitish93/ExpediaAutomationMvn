@@ -1,5 +1,8 @@
 package com.expedia.ExpediaMavenFramework.utilities;
 
+import java.util.Calendar;
+import java.util.Random;
+
 public class GeneralUtility {
 	public static void doHardWaitFor(long timeInMilliSecs) {
 		try{
@@ -68,5 +71,43 @@ public class GeneralUtility {
 	 */
 	public static String removeLeadingTrailingSpaces(String str) {
 		return str.trim();
+	}
+	
+	public static int getRandomInt(int start, int bound) {
+		Random r1 = new Random();
+		int randomInt = start+r1.nextInt(bound);
+		return randomInt;
+	}
+	
+	private static Calendar getFutureCalendar() {
+		Calendar cal1 = Calendar.getInstance();
+		int randInt = getRandomInt(1, 200);
+		cal1.add(Calendar.DATE, randInt);
+		return cal1;
+	}
+	
+	private static String extractDateFromCalendar(Calendar cal) {
+		String[] calDate = cal.getTime().toString().split(" ");
+		String date = calDate[2]+" "+calDate[1]+" "+calDate[5];
+		return date;
+	}
+	
+	public static String getAfutureDate() {
+		Calendar futCal = getFutureCalendar();
+		String futDate = extractDateFromCalendar(futCal);
+		if(futDate.charAt(0) == '0') {
+			futDate = futDate.substring(1);
+		}
+		return futDate;
+	}
+	
+	public static String[] getTwoFutureDates() {
+		Calendar futCal = getFutureCalendar();
+		Calendar futCal2 = Calendar.getInstance();
+		futCal2.setTime(futCal.getTime());
+		futCal2.roll(Calendar.DATE, getRandomInt(1,10));
+		String date1 = extractDateFromCalendar(futCal);
+		String date2 = extractDateFromCalendar(futCal2);
+		return new String[]{date1, date2};
 	}
 }
