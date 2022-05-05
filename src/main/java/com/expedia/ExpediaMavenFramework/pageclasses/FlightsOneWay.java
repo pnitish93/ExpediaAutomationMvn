@@ -18,8 +18,8 @@ import com.expedia.ExpediaMavenFramework.pageclasses.basePageClass.CustomDriver;
 import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
 /**
- * @author Nitish Panda Automation of some components of Expedia website using
- *         Page Factory
+ * @author Nitish Panda Automation of some flows of one way flights booking
+ * of Expedia website using Page Factory
  *
  */
 
@@ -54,7 +54,7 @@ public class FlightsOneWay extends CustomDriver {
 	@FindBy(xpath = "//button[text()='Search']")
 	private WebElement flightSearchButton;
 
-	@FindBy(xpath = "//a[contains(text(), 'traveller')]")
+	@FindBy(xpath = "//button[contains(text(), 'traveller')]")
 	private WebElement travellerDropdown;
 
 	@FindBy(xpath = "//label[text()='Adults']//following-sibling::div//button[1]")
@@ -134,8 +134,10 @@ public class FlightsOneWay extends CustomDriver {
 	 * @param void
 	 */
 	public void clickFlightsTab() {
-		clickWithoutWait(flightsTab);
-		log.info("clicking flights tab");
+		clickAndWait(flightsTab, 2000);
+		//System.out.println("Clicked on flights tab");
+		/*checkForDisappearanceOfCaptcha();
+		clickAndWait(flightsTab, 2000);*/
 	}
 
 	/**
@@ -145,7 +147,8 @@ public class FlightsOneWay extends CustomDriver {
 	 * @param void
 	 */
 	public void clickOneWay() {
-		clickWithoutWait(oneWayButton);
+		clickAndWait(oneWayButton, 1000);
+		//System.out.println("Clicked on one way tab");
 		log.info("clicking 'one-way' in flights tab");
 	}
 

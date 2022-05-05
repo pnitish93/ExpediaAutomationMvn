@@ -17,6 +17,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.expedia.ExpediaMavenFramework.utilities.GeneralUtility;
 
+import jdk.internal.org.jline.utils.Log;
+
 public class CustomDriver {
 	WebDriver driver;
 	JavascriptExecutor jsExe;
@@ -112,6 +114,7 @@ public class CustomDriver {
 			if (waitTimeInMilliSecs != 0) {
 				com.expedia.ExpediaMavenFramework.utilities.GeneralUtility.doHardWaitFor(waitTimeInMilliSecs);
 			}
+			logCD.info("Clicked on the element and waited for "+(waitTimeInMilliSecs/1000)+" seconds.");
 		} catch (Exception e) {
 			logCD.error("Cannot click on the element.");
 		}
@@ -124,8 +127,13 @@ public class CustomDriver {
 	 * @param element - web element to be clicked on.
 	 */
 	public void clickWithoutWait(WebElement element) {
-		clickAndWait(element, 0);
-		logCD.info("Clicked on an element");
+		try {
+			clickAndWait(element, 0);
+			logCD.info("Clicked on an element");
+		}
+		catch (Exception e) {
+			logCD.error("Cpuld not click on the element");
+		}
 	}
 
 	/**
@@ -186,8 +194,9 @@ public class CustomDriver {
 			}
 			element.sendKeys(text);
 			logCD.info("Text entered to element.");
+			Thread.sleep(2000);
 		} catch (Exception e) {
-			logCD.error("Cannot type text in the element.");
+			logCD.error("Cannot type text in the element or there is issue in the wait.");
 		}
 
 	}
@@ -373,5 +382,27 @@ public class CustomDriver {
 	public void doExplicitWaitForAppearanceFor(int secondsToWait, String xpathForTheElementToWaitFor) {
 		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathForTheElementToWaitFor)));
+	}
+	
+	public void doExplicitWaitForAppearanceFor(int secondsToWait, WebElement elementToWaitFor) {
+		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+		wait.until(ExpectedConditions.visibilityOf(elementToWaitFor));
+	}
+	
+	public void doExplicitWaitForDisappearanceFor(int secondsToWait, String xpathForTheElementToWaitFor) {
+		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpathForTheElementToWaitFor)));
+	}
+	
+	public void doExplicitWaitForDisappearanceFor(int secondsToWait, WebElement elementToWaitFor) {
+		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+		wait.until(ExpectedConditions.invisibilityOf(elementToWaitFor));
+	}
+	
+	public void checkForDisappearanceOfCaptcha() {
+		List<WebElement> captchaHeading = driver.findElements(By.xpath("//h2[contains(text(), 'Show us your human side...')]"));
+		if(captchaHeading.size() != 0 && captchaHeading.get(0).isDisplayed()) {
+			doExplicitWaitForDisappearanceFor(120, captchaHeading.get(0));
+		}
 	}
 }

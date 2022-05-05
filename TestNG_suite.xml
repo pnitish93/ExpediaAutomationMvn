@@ -2,7 +2,7 @@
 <suite name="expedia_flight_suite">
 	<test name="expedia_flight_test">
 		<classes>
-			<class name="com.expedia.ExpediaMavenFramework.testclasses.SearchFlightsOneWay" />
+			<class name="com.expedia.ExpediaMavenFramework.testclasses.SearchReturnFlights" />
 		</classes>
 	</test>
 </suite>

@@ -5,7 +5,7 @@ import org.testng.annotations.DataProvider;
 import com.expedia.ExpediaMavenFramework.constants.Constants;
 import com.expedia.ExpediaMavenFramework.utilities.ExcelUtility;
 
-public class DataProviderClassOneWayFlights {
+public class DataProviderClassFlights {
 	@DataProvider(name = "searchInputs")
 	public Object[][] sendInputs() {
 		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "FlightsWithHotelsPositive");
@@ -18,10 +18,10 @@ public class DataProviderClassOneWayFlights {
 		Object[][] objectList = ExcelUtility.getCellData("OneWayTravellers");
 		return objectList;
 	}
-	@DataProvider(name = "searchOneWayFlightsPos")
-	public Object[][] searchOneWayFlightsPos(){
-		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsPosDefaultDate");
-		Object[][] objectList = ExcelUtility.getCellData("OneWayFlightsPos");
+	@DataProvider(name = "searchFlightsDefaultDatePos")
+	public Object[][] searchFlightsDefaultDatePos(){
+		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "FlightsPosDefaultDate");
+		Object[][] objectList = ExcelUtility.getCellData("FlightsDefaultDtPos");
 		return objectList;
 	}
 	@DataProvider(name = "searchOneWayFlightsPosDate")
