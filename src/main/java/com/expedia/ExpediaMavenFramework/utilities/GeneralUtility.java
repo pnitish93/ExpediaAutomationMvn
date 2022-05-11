@@ -108,6 +108,12 @@ public class GeneralUtility {
 		futCal2.roll(Calendar.DATE, getRandomInt(1,10));
 		String date1 = extractDateFromCalendar(futCal);
 		String date2 = extractDateFromCalendar(futCal2);
+		if(date1.charAt(0) == '0') {
+			date1 = date1.substring(1);
+		}
+		if(date2.charAt(0) == '0') {
+			date2 = date2.substring(1);
+		}
 		return new String[]{date1, date2};
 	}
 }

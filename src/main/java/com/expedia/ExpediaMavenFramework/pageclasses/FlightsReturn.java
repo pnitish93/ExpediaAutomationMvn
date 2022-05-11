@@ -27,10 +27,10 @@ public class FlightsReturn extends CustomDriver {
 	private WebElement destinationCityButton;
 	
 	@FindBy(xpath = "//button[contains(@aria-label, 'Departing')]")
-	private WebElement departingField;
+	private WebElement departingDateButton;
 	
 	@FindBy(xpath = "//button[contains(@aria-label, 'Returning')]")
-	private WebElement returningField;
+	private WebElement returningDateButton;
 	
 	@FindBy(xpath = "//button[text()='Search']")
 	private WebElement searchButton;
@@ -74,6 +74,30 @@ public class FlightsReturn extends CustomDriver {
 		log.info("Clicked on the search button after providing return flight query details.");
 		doExplicitWaitForAppearanceFor(60, "//span[text()='Choose departing flight']");
 		return new FlightsResultPage(driver);
+	}
+	
+	/**
+	 * Sends the departure date
+	 * 
+	 * @return void
+	 * @param date
+	 */
+	public void provideDepartDate(String date) {
+		clickWithoutWait(departingDateButton);
+		log.info("The departing date to be provided is "+date);
+		clickDateElementIfExists(date);
+	}
+	
+	/**
+	 * Sends the return date
+	 * 
+	 * @return void
+	 * @param date
+	 */
+	public void provideReturnDate(String date) {
+		clickWithoutWait(returningDateButton);
+		log.info("The return date to be provided is "+date);
+		clickDateElementIfExists(date);
 	}
 	
 }

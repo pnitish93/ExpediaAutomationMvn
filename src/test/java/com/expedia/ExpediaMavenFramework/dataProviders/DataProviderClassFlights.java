@@ -24,10 +24,10 @@ public class DataProviderClassFlights {
 		Object[][] objectList = ExcelUtility.getCellData("FlightsDefaultDtPos");
 		return objectList;
 	}
-	@DataProvider(name = "searchOneWayFlightsPosDate")
+	@DataProvider(name = "searchFlightsPosDate")
 	public Object[][] searchOneWayFlightsPosDate(){
-		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "OneWayFlightsPosDate");
-		Object[][] objectList = ExcelUtility.getCellData("OneWayFlightsPosDate");
+		ExcelUtility.setExcelPath(Constants.path+"\\"+Constants.fileName, "FlightsPosDate");
+		Object[][] objectList = ExcelUtility.getCellData("FlightsPosWithDate");
 		return objectList;
 	}
 	@DataProvider(name = "searchInputsFlightsAge")

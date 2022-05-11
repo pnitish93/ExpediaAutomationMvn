@@ -48,7 +48,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param to - destination city
 	 * @param date - date of journey - future date
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosDate", dataProviderClass = DataProviderClassFlights.class, enabled = false)
+	@Test(dataProvider = "searchFlightsPosDate", dataProviderClass = DataProviderClassFlights.class, enabled = false)
 	public void isOneWayFlightSearchSuccessWithDate(String from, String to){
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);

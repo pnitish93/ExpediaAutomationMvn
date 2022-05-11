@@ -309,7 +309,7 @@ public class CustomDriver {
 					clickIfEnabled(prevButton);
 				} else if (desiredMonthNum < displayedMonthNumbers.get(1) && desiredYear > displayedYears.get(1)) {
 					clickIfEnabled(nextButton);
-				} else if (desiredMonthNum < displayedMonthNumbers.get(0) && desiredYear < displayedYears.get(0)) {
+				} else if (desiredMonthNum > displayedMonthNumbers.get(0) && desiredYear < displayedYears.get(0)) {
 					clickIfEnabled(prevButton);
 				}
 				dateElements = findDateElements(date);
