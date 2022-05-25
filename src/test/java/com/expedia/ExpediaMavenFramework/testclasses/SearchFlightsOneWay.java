@@ -48,7 +48,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param to - destination city
 	 * @param date - date of journey - future date
 	 */
-	@Test(dataProvider = "searchFlightsPosDate", dataProviderClass = DataProviderClassFlights.class, enabled = false)
+	@Test(dataProvider = "searchFlightsPosDate", dataProviderClass = DataProviderClassFlights.class)
 	public void isOneWayFlightSearchSuccessWithDate(String from, String to){
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
@@ -66,7 +66,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param date
 	 * @throws InterruptedException
 	 */
-	@Test(dataProvider = "searchFlightsDefaultDatePos", dataProviderClass = DataProviderClassFlights.class, enabled = false)
+	@Test(dataProvider = "searchFlightsDefaultDatePos", dataProviderClass = DataProviderClassFlights.class)
 	public void isOneWayFlightSearchSuccess(String from, String to) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
@@ -82,7 +82,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param children
 	 * @param infants
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosTravellers", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassFlights.class, enabled = true)
+	@Test(dataProvider = "searchOneWayFlightsPosTravellers", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassFlights.class)
 	public void isOneWayFlightsSearchSuccessWithTravellers(String from, String to, String adults, String children, String childrenAges, String infants, String infantAges, String infantSitting) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);
@@ -100,7 +100,7 @@ public class SearchFlightsOneWay extends TestConfig{
 	 * @param infants
 	 * @param flightClass
 	 */
-	@Test(dataProvider = "searchOneWayFlightsPosTrDt", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassFlights.class, enabled = false)
+	@Test(dataProvider = "searchOneWayFlightsPosTrDt", dataProviderClass = com.expedia.ExpediaMavenFramework.dataProviders.DataProviderClassFlights.class)
 	public void isOneWayFlightsSearchSuccessWithAllOptions(String from, String to, String adults, String children, String childrenAges, String infants, String infantAges, String infantSitting, String flightClass) {
 		FlightsOneWay oneWaySearchPage = new FlightsOneWay(driver);
 		doCommonOperation(from, to, oneWaySearchPage);

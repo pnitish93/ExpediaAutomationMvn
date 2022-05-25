@@ -17,18 +17,14 @@ import org.testng.annotations.AfterMethod;
 public class TestConfig {
 	protected WebDriver driver;
 	private String baseUrl;
-
-	@Test
-	public void baseTest() {
-	}
+	private WebDriverFactory driverFactory;
 
 	@BeforeClass
 	public void beforeClass() {
-		System.setProperty("webdriver.chrome.driver", "Drivers/chromedriver.exe");
-		driver = new ChromeDriver();
+		driverFactory = WebDriverFactory.getInstance();
+		driver = driverFactory.getDriver("chrome");
 		baseUrl = Constants.URL;
 		driver.get(baseUrl);
-		driver.manage().window().maximize();
 	}
 
 	@BeforeMethod
@@ -44,7 +40,7 @@ public class TestConfig {
 
 	@AfterClass
 	public void afterClass() {
-		driver.quit();
+		driverFactory.quitDriver();
 	}
 
 }

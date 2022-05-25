@@ -18,7 +18,7 @@ public class SearchReturnFlights extends TestConfig {
 		returnObject.provideDestination(destination);
 	}
 	
-	@Test(dataProvider = "searchFlightsDefaultDatePos", dataProviderClass = DataProviderClassFlights.class, enabled = false)
+	@Test(dataProvider = "searchFlightsDefaultDatePos", dataProviderClass = DataProviderClassFlights.class)
 	public void searchReturnFlightsDefaultDates(String sourceCode, String destinationCode) {
 		FlightsReturn returnWay = new FlightsReturn(driver);
 		doCommonOperations(returnWay, sourceCode, destinationCode);
